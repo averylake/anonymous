@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://anonymous.averylakeofficial.com">
+
+    <title>08 // THE FINGERPRINT | The Digital Audit</title>
+
+    <meta name="description" content="Protocol 08: The Fingerprint. Anonymity is an illusion.">
+    <meta name="author" content="Avery Lake">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anonymous.averylakeofficial.com">
+    <meta property="og:title" content="08 // THE FINGERPRINT">
+    <meta property="og:description" content="Protocol 08. Anonymity is an illusion.">
+    <meta property="og:image" content="https://anonymous.averylakeofficial.com/preview.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://anonymous.averylakeofficial.com/preview.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23FF6600'/></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        /* ============================================== */
+        /* === PROTOCOL 08: THE FINGERPRINT === */
+        /* === Orange/Amber Biometric Theme === */
+        /* ============================================== */
+        :root {
+            --bg-void: #0a0a0a;
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.4);
+            --text-muted: rgba(255, 255, 255, 0.6);
+
+            /* Protocol 08: Biometric Orange */
+            --accent-primary: #FF6600;
+            --accent-glow: rgba(255, 102, 0, 0.4);
+            --accent-secondary: rgba(255, 102, 0, 0.6);
+
+            --glass-bg: rgba(10, 10, 10, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --border-dim: rgba(255, 255, 255, 0.2);
+
+            --font-main: 'Space Grotesk', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-void);
+            font-family: var(--font-main);
+            color: var(--text-main);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === GATEKEEPER === */
+        #gatekeeper-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 99999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+
+        #gatekeeper-overlay h1 {
+            color: var(--accent-primary);
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        #gatekeeper-overlay p {
+            color: var(--text-dim);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* === START OVERLAY === */
+        #start-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-void);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .start-title {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .start-by {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .start-artist {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            margin-bottom: 50px;
+        }
+
+        .btn-initialize {
+            background: transparent;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            font-family: var(--font-main);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 18px 50px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .btn-initialize:hover {
+            background: rgba(255, 102, 0, 0.1);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .sound-note {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        /* === MAIN LAYOUT === */
+        .main-container {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 1s ease;
+            overflow-y: auto;
+            /* FIXED: Enable scrolling */
+            overflow-x: hidden;
+        }
+
+        .main-container.active {
+            opacity: 1;
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .protocol-title {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .protocol-subtitle {
+            font-size: 9px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .audio-toggle {
+            font-family: var(--font-main);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid var(--border-dim);
+            background: transparent;
+            color: var(--text-dim);
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .audio-toggle:hover {
+            border-color: var(--text-muted);
+            color: var(--text-muted);
+        }
+
+        .audio-toggle.active {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* CENTER CONTENT */
+        .center-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            /* FIXED: Changed from center */
+            align-items: center;
+            padding: 40px 0;
+            min-height: fit-content;
+        }
+
+        .experience-prompt {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            text-align: center;
+            line-height: 1.6;
+            min-height: 40px;
+        }
+
+        .experience-prompt::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            color: var(--accent-primary);
+        }
+
+        .experience-prompt.done::after {
+            display: none;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* === FINGERPRINT SCANNER === */
+        .scanner-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .fingerprint-scanner {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-primary);
+            background: radial-gradient(circle, rgba(255, 102, 0, 0.05) 0%, transparent 70%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fingerprint-scanner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .fingerprint-scanner:hover::before {
+            opacity: 0.5;
+        }
+
+        .fingerprint-scanner.scanning {
+            animation: scanPulse 2s ease infinite;
+            pointer-events: none;
+        }
+
+        .fingerprint-scanner.scanned {
+            border-color: #00ff00;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.4);
+        }
+
+        @keyframes scanPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px var(--accent-glow);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 60px var(--accent-glow);
+                transform: scale(1.05);
+            }
+        }
+
+        /* Fingerprint SVG Icon */
+        .fingerprint-icon {
+            width: 100px;
+            height: 100px;
+            fill: var(--accent-primary);
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+
+        .fingerprint-scanner:hover .fingerprint-icon {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .fingerprint-scanner.scanning .fingerprint-icon {
+            animation: iconPulse 2s ease infinite;
+        }
+
+        .fingerprint-scanner.scanned .fingerprint-icon {
+            fill: #00ff00;
+        }
+
+        @keyframes iconPulse {
+
+            0%,
+            100% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Scan line animation */
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+
+        .fingerprint-scanner.scanning .scan-line {
+            animation: scanLine 2s linear infinite;
+            opacity: 1;
+        }
+
+        @keyframes scanLine {
+            0% {
+                top: 0;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        .scan-instruction {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-top: 30px;
+        }
+
+        /* === DATA REVEAL === */
+        .data-reveal {
+            display: none;
+            width: 100%;
+            max-width: 700px;
+            margin-top: 20px;
+        }
+
+        .data-reveal.active {
+            display: block;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .data-header {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* MOVED UP: Philosophical statement */
+        .truth-statement {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-align: center;
+            color: #ff0000;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            line-height: 1.6;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            /* Increased spacing */
+            margin-bottom: 30px;
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            /* More generous padding */
+            border: 1px solid var(--border-dim);
+            background: rgba(0, 0, 0, 0.5);
+            font-size: 13px;
+            /* Much larger base size */
+            line-height: 1.5;
+            min-height: 50px;
+            /* Ensure good touch targets */
+        }
+
+        .data-label {
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 12px;
+            /* Larger label */
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .data-value {
+            color: var(--accent-primary);
+            font-family: var(--font-mono);
+            text-align: right;
+            word-break: break-word;
+            /* Better word breaking */
+            max-width: 65%;
+            font-size: 14px;
+            /* Even larger value for readability */
+            font-weight: 500;
+        }
+
+        /* Proceed button after data reveal */
+        .btn-proceed {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 40px auto;
+            /* Added bottom margin for spacing */
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            color: var(--accent-primary);
+            font-family: var(--font-main);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 20px 40px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .btn-proceed:hover {
+            background: rgba(255, 102, 0, 0.15);
+            box-shadow: 0 0 30px var(--accent-glow);
+            transform: scale(1.02);
+        }
+
+        .btn-proceed:active {
+            transform: scale(0.98);
+        }
+
+        /* BOTTOM BAR */
+        .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+            margin-top: 40px;
+            padding-bottom: 20px;
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .reset-link {
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .reset-link:hover {
+            color: var(--text-main);
+        }
+
+        .footer-credit {
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            text-decoration: none;
+        }
+
+        .footer-credit:hover {
+            color: var(--text-main);
+        }
+
+        /* === DATA CAPTURE OVERLAY === */
+        #capture-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 5000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        #capture-overlay.active {
+            display: flex;
+        }
+
+        .capture-modal {
+            width: 320px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .capture-header {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .capture-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border-dim);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            font-size: 14px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px;
+            margin-bottom: 30px;
+            outline: none;
+        }
+
+        .capture-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .capture-input:focus {
+            border-color: var(--accent-primary);
+        }
+
+        /* UNIFIED BUTTONS */
+        .btn-primary {
+            display: block;
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            font-family: var(--font-main);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: left;
+        }
+
+        .btn-primary:hover {
+            background: rgba(255, 102, 0, 0.1);
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.2);
+        }
+
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border-dim);
+            color: var(--text-muted);
+            font-family: var(--font-main);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: left;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        .btn-locked {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .btn-locked.unlocked {
+            opacity: 1;
+            cursor: pointer;
+            pointer-events: auto;
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* === ARTIFACT GENERATOR (Hidden) === */
+        #art-container {
+            position: fixed;
+            transform: translate(-9999px, -9999px);
+            width: 2250px;
+            height: 3000px;
+            background-color: #080808;
+            background-image:
+                radial-gradient(circle, transparent 25%, #000 95%),
+                linear-gradient(90deg, transparent 0%, transparent 39%, rgba(255, 102, 0, 0.5) 40%, rgba(255, 102, 0, 0.5) 42%, transparent 43%),
+                linear-gradient(90deg, transparent 0%, transparent 59%, rgba(255, 102, 0, 0.5) 60%, rgba(255, 102, 0, 0.5) 62%, transparent 63%),
+                repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0px, transparent 1px, transparent 2px);
+            background-size:
+                100% 100%,
+                100% 100%,
+                100% 100%,
+                100% 2px;
+            padding: 150px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .art-monolith {
+            width: 1400px;
+            aspect-ratio: 9 / 16;
+            background: #000;
+            border: 6px solid var(--accent-primary);
+            margin: 0 auto 100px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: visible;
+            /* Changed from hidden to show corner brackets */
+        }
+
+        /* Corner brackets */
+        .art-monolith::before,
+        .art-monolith::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-style: solid;
+            border-width: 0;
+            pointer-events: none;
+        }
+
+        .art-monolith::before {
+            top: -45px;
+            left: -45px;
+            border-left: 4px solid rgba(255, 102, 0, 0.8);
+            border-top: 4px solid rgba(255, 102, 0, 0.8);
+        }
+
+        .art-monolith::after {
+            top: -45px;
+            right: -45px;
+            border-right: 4px solid rgba(255, 255, 255, 0.9);
+            border-top: 4px solid rgba(255, 255, 255, 0.9);
+        }
+
+        .corner-bottom-left {
+            position: absolute;
+            bottom: -45px;
+            left: -45px;
+            width: 60px;
+            height: 60px;
+            border-left: 4px solid rgba(255, 255, 255, 0.9);
+            border-bottom: 4px solid rgba(255, 255, 255, 0.9);
+            pointer-events: none;
+        }
+
+        .corner-bottom-right {
+            position: absolute;
+            bottom: -45px;
+            right: -45px;
+            width: 60px;
+            height: 60px;
+            border-right: 4px solid rgba(255, 102, 0, 0.8);
+            border-bottom: 4px solid rgba(255, 102, 0, 0.8);
+            pointer-events: none;
+        }
+
+        /* ARTIFACT: Large fingerprint visual */
+        .art-fingerprint {
+            width: 800px;
+            height: 800px;
+            fill: var(--accent-primary);
+            opacity: 0.8;
+        }
+
+        .art-footer {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: auto;
+            font-size: 36px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .main-container {
+                padding: 15px;
+            }
+
+            .fingerprint-scanner {
+                width: 150px;
+                height: 150px;
+            }
+
+            .fingerprint-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .data-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 18px;
+                /* Even more padding on mobile */
+                font-size: 14px;
+                /* Larger on mobile */
+                min-height: 60px;
+            }
+
+            .data-label {
+                font-size: 13px;
+                /* Larger label on mobile */
+            }
+
+            .data-value {
+                text-align: left;
+                max-width: 100%;
+                font-size: 15px;
+                /* Much larger value on mobile */
+            }
+
+            .btn-proceed {
+                font-size: 14px;
+                /* Larger button text on mobile */
+                padding: 20px 35px;
+            }
+
+            .truth-statement {
+                font-size: 14px;
+            }
+
+            .bottom-bar {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            .footer-left {
+                align-items: flex-start;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- GATEKEEPER -->
+    <div id="gatekeeper-overlay">
+        <h1>Restricted Terminal</h1>
+        <p>In-app browsers prevent full functionality.<br>Please open in Safari or Chrome.</p>
+    </div>
+
+    <!-- START OVERLAY -->
+    <div id="start-overlay">
+        <div class="start-title">THE FINGERPRINT</div>
+        <div class="start-by">by</div>
+        <div class="start-artist">AVERY LAKE</div>
+        <button class="btn-initialize" onclick="startExperience()">INITIALIZE</button>
+        <div class="sound-note">(Turn on sound for full effect)</div>
+    </div>
+
+    <audio id="bg-audio" loop src="Anonymous.mp3"></audio>
+
+    <!-- MAIN EXPERIENCE -->
+    <div class="main-container" id="mainContainer">
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div>
+                <div class="protocol-title">The Fingerprint</div>
+                <div class="protocol-subtitle">Protocol 08</div>
+            </div>
+            <button class="audio-toggle" id="audio-toggle" onclick="toggleAudio()">AUDIO: OFF</button>
+        </div>
+
+        <!-- CENTER CONTENT -->
+        <div class="center-content">
+            <div class="experience-prompt" id="promptText">Place your finger on the scanner</div>
+
+            <!-- FINGERPRINT SCANNER -->
+            <div class="scanner-container">
+                <div class="fingerprint-scanner" id="scanner" onclick="scanFingerprint()">
+                    <div class="scan-line"></div>
+                    <!-- Realistic Touch ID Style Fingerprint -->
+                    <svg class="fingerprint-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round">
+                            <!-- Outer circle border -->
+                            <circle cx="50" cy="50" r="48" stroke-width="3" />
+
+                            <!-- Fingerprint ridges - realistic whorl pattern -->
+                            <!-- Outer ridges -->
+                            <path
+                                d="M 50 10 C 72 10, 88 26, 88 48 C 88 70, 72 86, 50 86 C 28 86, 12 70, 12 48 C 12 26, 28 10, 50 10" />
+                            <path
+                                d="M 50 15 C 69 15, 83 29, 83 48 C 83 67, 69 81, 50 81 C 31 81, 17 67, 17 48 C 17 29, 31 15, 50 15" />
+                            <path
+                                d="M 50 20 C 66 20, 78 32, 78 48 C 78 64, 66 76, 50 76 C 34 76, 22 64, 22 48 C 22 32, 34 20, 50 20" />
+                            <path
+                                d="M 50 25 C 63 25, 73 35, 73 48 C 73 61, 63 71, 50 71 C 37 71, 27 61, 27 48 C 27 35, 37 25, 50 25" />
+
+                            <!-- Middle ridges with breaks for realism -->
+                            <path d="M 50 30 C 60 30, 68 38, 68 48 C 68 58, 60 66, 50 66" />
+                            <path d="M 50 66 C 40 66, 32 58, 32 48 C 32 38, 40 30, 50 30" />
+
+                            <path d="M 50 35 C 57 35, 63 41, 63 48 C 63 55, 57 61, 50 61" />
+                            <path d="M 50 61 C 43 61, 37 55, 37 48 C 37 41, 43 35, 50 35" />
+
+                            <!-- Inner whorl -->
+                            <path d="M 50 40 C 54 40, 58 44, 58 48 C 58 52, 54 56, 50 56" />
+                            <path d="M 50 56 C 46 56, 42 52, 42 48 C 42 44, 46 40, 50 40" />
+
+                            <!-- Center small loop -->
+                            <path
+                                d="M 50 45 C 52 45, 53 46, 53 48 C 53 50, 52 51, 50 51 C 48 51, 47 50, 47 48 C 47 46, 48 45, 50 45" />
+
+                            <!-- Ridge details - left side curves -->
+                            <path d="M 15 45 Q 18 42, 20 45" />
+                            <path d="M 13 50 Q 16 47, 19 50" />
+                            <path d="M 14 55 Q 17 52, 20 55" />
+                            <path d="M 16 60 Q 19 57, 22 60" />
+                            <path d="M 18 65 Q 21 62, 24 65" />
+
+                            <!-- Ridge details - right side curves -->
+                            <path d="M 80 45 Q 82 42, 85 45" />
+                            <path d="M 81 50 Q 84 47, 87 50" />
+                            <path d="M 80 55 Q 83 52, 86 55" />
+                            <path d="M 78 60 Q 81 57, 84 60" />
+                            <path d="M 76 65 Q 79 62, 82 65" />
+
+                            <!-- Bottom curves for natural appearance -->
+                            <path d="M 35 75 Q 42 73, 50 75" />
+                            <path d="M 50 75 Q 58 77, 65 75" />
+                            <path d="M 30 70 Q 40 68, 50 70" />
+                            <path d="M 50 70 Q 60 72, 70 70" />
+                        </g>
+                    </svg>
+                </div>
+                <div class="scan-instruction" id="scanInstruction">TAP TO SCAN</div>
+            </div>
+
+            <!-- DATA REVEAL (Hidden initially) -->
+            <div class="data-reveal" id="dataReveal">
+                <div class="data-header">BIOMETRIC CAPTURE COMPLETE</div>
+                <div class="truth-statement">ANONYMITY IS AN ILLUSION<br>IN THE DIGITAL REALM</div>
+
+                <!-- Proceed Button (positioned before data for prominence) -->
+                <button class="btn-proceed" onclick="openCaptureOverlay()" style="display: none;" id="btnProceed">
+                    DOWNLOAD YOUR DATA
+                </button>
+
+                <div class="data-grid" id="dataGrid"></div>
+            </div>
+        </div>
+
+        <!-- BOTTOM BAR -->
+        <div class="bottom-bar">
+            <div class="footer-left">
+                <span class="reset-link" onclick="location.reload()">RESET PROTOCOL</span>
+                <a href="https://www.averylakeofficial.com/" class="footer-credit" target="_blank">AN ART EXPERIMENT</a>
+                <span style="font-size: 8px; opacity: 0.5;">© 2026 Avery Lake. All rights reserved.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATA CAPTURE OVERLAY -->
+    <div id="capture-overlay">
+        <div class="capture-modal">
+            <div class="capture-header">DATA CAPTURED</div>
+
+            <input type="text" class="capture-input" id="subject-input" placeholder="ENTER NAME (OPTIONAL)"
+                maxlength="25">
+
+            <button class="btn-primary" onclick="downloadArtifact()">
+                <span style="opacity:0.5; margin-right:8px;">1.</span> DOWNLOAD ARTIFACT (IMAGE)
+            </button>
+            <button class="btn-secondary" onclick="downloadDataLog()">
+                <span style="opacity:0.5; margin-right:8px;">2.</span> DOWNLOAD DATA LOG
+            </button>
+            <button class="btn-secondary btn-locked" id="commission-btn" onclick="requestPrint()">
+                <span style="opacity:0.5; margin-right:8px;">3.</span> COMMISSION INQUIRY (optional)
+            </button>
+
+            <div style="height:10px;"></div>
+
+            <a href="https://digital.averylakeofficial.com/" class="btn-secondary">
+                <span style="opacity:0.5; margin-right:8px;">4.</span> CONTINUE THE AUDIT
+            </a>
+
+            <div style="margin-top:15px; text-align:center;">
+                <span class="reset-link" onclick="location.reload()"
+                    style="font-size:9px; border-bottom:1px solid #333; padding-bottom:2px;">RESET PROTOCOL</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTIFACT GENERATOR (Hidden) -->
+    <div id="art-container">
+        <div style="height:100px;"></div>
+        <div class="art-monolith">
+            <!-- Realistic Touch ID Style Fingerprint for Artifact -->
+            <svg class="art-fingerprint" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round">
+                    <!-- Outer circle border -->
+                    <circle cx="50" cy="50" r="48" stroke-width="3" />
+
+                    <!-- Fingerprint ridges - realistic whorl pattern -->
+                    <!-- Outer ridges -->
+                    <path
+                        d="M 50 10 C 72 10, 88 26, 88 48 C 88 70, 72 86, 50 86 C 28 86, 12 70, 12 48 C 12 26, 28 10, 50 10" />
+                    <path
+                        d="M 50 15 C 69 15, 83 29, 83 48 C 83 67, 69 81, 50 81 C 31 81, 17 67, 17 48 C 17 29, 31 15, 50 15" />
+                    <path
+                        d="M 50 20 C 66 20, 78 32, 78 48 C 78 64, 66 76, 50 76 C 34 76, 22 64, 22 48 C 22 32, 34 20, 50 20" />
+                    <path
+                        d="M 50 25 C 63 25, 73 35, 73 48 C 73 61, 63 71, 50 71 C 37 71, 27 61, 27 48 C 27 35, 37 25, 50 25" />
+
+                    <!-- Middle ridges with breaks for realism -->
+                    <path d="M 50 30 C 60 30, 68 38, 68 48 C 68 58, 60 66, 50 66" />
+                    <path d="M 50 66 C 40 66, 32 58, 32 48 C 32 38, 40 30, 50 30" />
+
+                    <path d="M 50 35 C 57 35, 63 41, 63 48 C 63 55, 57 61, 50 61" />
+                    <path d="M 50 61 C 43 61, 37 55, 37 48 C 37 41, 43 35, 50 35" />
+
+                    <!-- Inner whorl -->
+                    <path d="M 50 40 C 54 40, 58 44, 58 48 C 58 52, 54 56, 50 56" />
+                    <path d="M 50 56 C 46 56, 42 52, 42 48 C 42 44, 46 40, 50 40" />
+
+                    <!-- Center small loop -->
+                    <path
+                        d="M 50 45 C 52 45, 53 46, 53 48 C 53 50, 52 51, 50 51 C 48 51, 47 50, 47 48 C 47 46, 48 45, 50 45" />
+
+                    <!-- Ridge details - left side curves -->
+                    <path d="M 15 45 Q 18 42, 20 45" />
+                    <path d="M 13 50 Q 16 47, 19 50" />
+                    <path d="M 14 55 Q 17 52, 20 55" />
+                    <path d="M 16 60 Q 19 57, 22 60" />
+                    <path d="M 18 65 Q 21 62, 24 65" />
+
+                    <!-- Ridge details - right side curves -->
+                    <path d="M 80 45 Q 82 42, 85 45" />
+                    <path d="M 81 50 Q 84 47, 87 50" />
+                    <path d="M 80 55 Q 83 52, 86 55" />
+                    <path d="M 78 60 Q 81 57, 84 60" />
+                    <path d="M 76 65 Q 79 62, 82 65" />
+
+                    <!-- Bottom curves for natural appearance -->
+                    <path d="M 35 75 Q 42 73, 50 75" />
+                    <path d="M 50 75 Q 58 77, 65 75" />
+                    <path d="M 30 70 Q 40 68, 50 70" />
+                    <path d="M 50 70 Q 60 72, 70 70" />
+                </g>
+            </svg>
+            <span class="corner-bottom-left"></span>
+            <span class="corner-bottom-right"></span>
+        </div>
+        <div class="art-footer">
+            <div><span id="art-hash">0x000000</span> (1/1)</div>
+            <span>THE FINGERPRINT</span>
+            <span>AVERY LAKE</span>
+        </div>
+    </div>
+
+    <script>
+        // === GATEKEEPER ===
+        (function () {
+            const ua = navigator.userAgent || '';
+            if (/Instagram|FBAN|FBAV|TikTok/i.test(ua)) {
+                document.getElementById('gatekeeper-overlay').style.display = 'flex';
+                throw new Error("Restricted Browser");
+            }
+        })();
+
+        // === STATE ===
+        let scanComplete = false;
+        let capturedData = {};
+        let downloadedArtifact = false;
+        let downloadedLog = false;
+        let audioPlaying = false;
+
+        const audio = document.getElementById('bg-audio');
+        const audioToggle = document.getElementById('audio-toggle');
+
+        function startExperience() {
+            document.getElementById('start-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('start-overlay').style.display = 'none';
+                document.getElementById('mainContainer').classList.add('active');
+            }, 500);
+
+            // Try to play audio
+            audio.play().then(() => {
+                audioPlaying = true;
+                audioToggle.textContent = 'AUDIO: ON';
+                audioToggle.classList.add('active');
+            }).catch(() => { });
+
+            capturedData.startTime = Date.now();
+        }
+
+        function toggleAudio() {
+            if (audioPlaying) {
+                audio.pause();
+                audioPlaying = false;
+                audioToggle.textContent = 'AUDIO: OFF';
+                audioToggle.classList.remove('active');
+            } else {
+                audio.play();
+                audioPlaying = true;
+                audioToggle.textContent = 'AUDIO: ON';
+                audioToggle.classList.add('active');
+            }
+        }
+
+        async function scanFingerprint() {
+            if (scanComplete) return;
+
+            const scanner = document.getElementById('scanner');
+            const promptText = document.getElementById('promptText');
+            const scanInstruction = document.getElementById('scanInstruction');
+            const dataReveal = document.getElementById('dataReveal');
+
+            // Start scanning animation
+            scanner.classList.add('scanning');
+            promptText.textContent = 'Scanning biometric data...';
+            scanInstruction.textContent = 'DO NOT REMOVE FINGER';
+
+            // Collect digital fingerprint
+            setTimeout(async () => {
+                const data = await collectDigitalFingerprint();
+                capturedData = { ...capturedData, ...data };
+
+                // Scanning complete
+                scanner.classList.remove('scanning');
+                scanner.classList.add('scanned');
+                promptText.textContent = 'Scan complete. Identity captured.';
+                promptText.classList.add('done');
+                scanInstruction.textContent = 'IDENTITY VERIFIED';
+                scanInstruction.style.color = 'var(--accent-primary)';
+
+                // Display data
+                displayData(data.dataArray);
+                dataReveal.classList.add('active');
+
+                // Show proceed button after brief delay (let them see the data first)
+                setTimeout(() => {
+                    document.getElementById('btnProceed').style.display = 'block';
+                }, 1500);
+
+                capturedData.endTime = Date.now();
+                capturedData.hash = generateHash();
+                scanComplete = true;
+            }, 3000);
+        }
+
+        function generateHash() {
+            return '0x' + Math.random().toString(16).substr(2, 6).toUpperCase();
+        }
+
+        async function collectDigitalFingerprint() {
+            const dataArray = [];
+
+            // === EXPANDED DATA COLLECTION ===
+            const userAgent = navigator.userAgent;
+            const screenRes = `${screen.width} × ${screen.height}`;
+            const viewport = `${window.innerWidth} × ${window.innerHeight}`;
+            const language = navigator.language;
+            const languages = navigator.languages ? navigator.languages.join(', ') : language;
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const colorDepth = screen.colorDepth;
+            const pixelRatio = window.devicePixelRatio;
+            const platform = navigator.platform;
+            const cookiesEnabled = navigator.cookieEnabled ? 'YES' : 'NO';
+            const doNotTrack = navigator.doNotTrack || 'Not set';
+            const hardwareConcurrency = navigator.hardwareConcurrency || 'Unknown';
+            const maxTouchPoints = navigator.maxTouchPoints || 0;
+
+            // Battery API (if available)
+            let battery = 'Not accessible';
+            if (navigator.getBattery) {
+                try {
+                    const batteryInfo = await navigator.getBattery();
+                    battery = `${Math.round(batteryInfo.level * 100)}% (${batteryInfo.charging ? 'Charging' : 'Discharging'})`;
+                } catch (e) { }
+            }
+
+            // Connection API (if available)
+            let connection = 'Not accessible';
+            if (navigator.connection || navigator.mozConnection || navigator.webkitConnection) {
+                const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                connection = conn.effectiveType || 'Unknown';
+            }
+
+            // Parse OS
+            let os = 'Unknown';
+            if (userAgent.includes('Windows NT 10')) os = 'Windows 10/11';
+            else if (userAgent.includes('Windows NT 6.3')) os = 'Windows 8.1';
+            else if (userAgent.includes('Windows')) os = 'Windows';
+            else if (userAgent.includes('Mac OS X')) {
+                const match = userAgent.match(/Mac OS X ([\d_]+)/);
+                os = match ? `macOS ${match[1].replace(/_/g, '.')}` : 'macOS';
+            }
+            else if (userAgent.includes('Linux')) os = 'Linux';
+            else if (userAgent.includes('Android')) {
+                const match = userAgent.match(/Android ([\d.]+)/);
+                os = match ? `Android ${match[1]}` : 'Android';
+            }
+            else if (userAgent.includes('iOS') || userAgent.includes('iPhone') || userAgent.includes('iPad')) {
+                const match = userAgent.match(/OS ([\d_]+)/);
+                os = match ? `iOS ${match[1].replace(/_/g, '.')}` : 'iOS';
+            }
+
+            // Parse Browser + Version
+            let browser = 'Unknown';
+            if (userAgent.includes('Edg/')) {
+                const match = userAgent.match(/Edg\/([\d.]+)/);
+                browser = match ? `Edge ${match[1]}` : 'Edge';
+            } else if (userAgent.includes('Chrome/')) {
+                const match = userAgent.match(/Chrome\/([\d.]+)/);
+                browser = match ? `Chrome ${match[1]}` : 'Chrome';
+            } else if (userAgent.includes('Safari/') && !userAgent.includes('Chrome')) {
+                const match = userAgent.match(/Version\/([\d.]+)/);
+                browser = match ? `Safari ${match[1]}` : 'Safari';
+            } else if (userAgent.includes('Firefox/')) {
+                const match = userAgent.match(/Firefox\/([\d.]+)/);
+                browser = match ? `Firefox ${match[1]}` : 'Firefox';
+            }
+
+            // Device type
+            let device = 'Desktop Computer';
+            if (userAgent.includes('Mobile')) device = 'Mobile Phone';
+            else if (userAgent.includes('Tablet') || userAgent.includes('iPad')) device = 'Tablet';
+
+            // Create fingerprint hash
+            const fingerprintString = userAgent + screenRes + timezone + language + colorDepth + pixelRatio;
+            const fingerprint = await simpleHash(fingerprintString);
+
+            // Timestamp
+            const timestamp = new Date().toLocaleString('en-US', {
+                timeZone: timezone,
+                dateStyle: 'full',
+                timeStyle: 'long'
+            });
+
+            // Get IP and location
+            let ip = 'Scanning...';
+            let location = 'Triangulating...';
+            let isp = 'Unknown';
+            let org = 'Unknown';
+
+            try {
+                const geoResponse = await fetch('https://ipapi.co/json/');
+                const geoData = await geoResponse.json();
+                if (geoData.city) {
+                    location = `${geoData.city}, ${geoData.region}, ${geoData.country_name}`;
+                    ip = geoData.ip || 'Hidden';
+                    isp = geoData.org || 'Unknown ISP';
+                    org = geoData.org || 'Unknown';
+                }
+            } catch (e) {
+                location = 'Location blocked';
+                ip = 'IP masked';
+            }
+
+            // Build comprehensive data array
+            dataArray.push({ label: 'IP ADDRESS', value: ip });
+            dataArray.push({ label: 'LOCATION', value: location });
+            dataArray.push({ label: 'ISP/NETWORK', value: isp });
+            dataArray.push({ label: 'DEVICE TYPE', value: device });
+            dataArray.push({ label: 'OPERATING SYSTEM', value: os });
+            dataArray.push({ label: 'BROWSER', value: browser });
+            dataArray.push({ label: 'SCREEN RESOLUTION', value: screenRes });
+            dataArray.push({ label: 'VIEWPORT SIZE', value: viewport });
+            dataArray.push({ label: 'COLOR DEPTH', value: `${colorDepth}-bit` });
+            dataArray.push({ label: 'PIXEL RATIO', value: `${pixelRatio}x` });
+            dataArray.push({ label: 'CPU CORES', value: hardwareConcurrency });
+            dataArray.push({ label: 'TOUCH POINTS', value: maxTouchPoints });
+            dataArray.push({ label: 'LANGUAGE', value: language });
+            dataArray.push({ label: 'ALL LANGUAGES', value: languages });
+            dataArray.push({ label: 'TIMEZONE', value: timezone });
+            dataArray.push({ label: 'COOKIES ENABLED', value: cookiesEnabled });
+            dataArray.push({ label: 'DO NOT TRACK', value: doNotTrack });
+            dataArray.push({ label: 'CONNECTION TYPE', value: connection });
+            dataArray.push({ label: 'BATTERY STATUS', value: battery });
+            dataArray.push({ label: 'TIMESTAMP', value: timestamp });
+            dataArray.push({ label: 'FINGERPRINT ID', value: fingerprint });
+
+            return {
+                dataArray,
+                ip,
+                location,
+                device,
+                os,
+                browser,
+                screenRes,
+                language,
+                timezone,
+                timestamp,
+                fingerprint,
+                isp,
+                connection,
+                battery
+            };
+        }
+
+        async function simpleHash(str) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(str);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return '0x' + hashHex.substring(0, 6).toUpperCase();
+        }
+
+        function displayData(dataArray) {
+            const dataGrid = document.getElementById('dataGrid');
+            dataGrid.innerHTML = '';
+
+            dataArray.forEach(item => {
+                const dataItem = document.createElement('div');
+                dataItem.className = 'data-item';
+                dataItem.innerHTML = `
+                    <span class="data-label">${item.label}</span>
+                    <span class="data-value">${item.value}</span>
+                `;
+                dataGrid.appendChild(dataItem);
+            });
+        }
+
+        function openCaptureOverlay() {
+            document.getElementById('capture-overlay').classList.add('active');
+            document.getElementById('art-hash').textContent = capturedData.hash || generateHash();
+        }
+
+        async function downloadArtifact() {
+            const subjectName = document.getElementById('subject-input').value.trim() || 'ANONYMOUS';
+            capturedData.subjectName = subjectName;
+
+            html2canvas(document.getElementById('art-container'), {
+                backgroundColor: '#0a0a0a',
+                scale: 1
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `THE_FINGERPRINT_${capturedData.hash}_ARTIFACT.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                downloadedArtifact = true;
+                checkUnlockPrint();
+            });
+        }
+
+        function downloadDataLog() {
+            const subjectName = document.getElementById('subject-input').value.trim() || 'ANONYMOUS';
+            capturedData.subjectName = subjectName;
+
+            const log = `
+==================================
+THE FINGERPRINT // PROTOCOL 08
+DATA LOG
+==================================
+
+HASH: ${capturedData.hash}
+SUBJECT: ${subjectName}
+DATE: ${new Date().toISOString()}
+
+----------------------------------
+BIOMETRIC CAPTURE
+----------------------------------
+IP ADDRESS: ${capturedData.ip || 'N/A'}
+LOCATION: ${capturedData.location || 'N/A'}
+ISP/NETWORK: ${capturedData.isp || 'N/A'}
+DEVICE: ${capturedData.device || 'N/A'}
+OPERATING SYSTEM: ${capturedData.os || 'N/A'}
+BROWSER: ${capturedData.browser || 'N/A'}
+SCREEN RESOLUTION: ${capturedData.screenRes || 'N/A'}
+LANGUAGE: ${capturedData.language || 'N/A'}
+TIMEZONE: ${capturedData.timezone || 'N/A'}
+CONNECTION TYPE: ${capturedData.connection || 'N/A'}
+BATTERY STATUS: ${capturedData.battery || 'N/A'}
+FINGERPRINT ID: ${capturedData.fingerprint || 'N/A'}
+
+----------------------------------
+SESSION METRICS
+----------------------------------
+DURATION: ${capturedData.endTime ? Math.round((capturedData.endTime - capturedData.startTime) / 1000) : 'N/A'} seconds
+TIMESTAMP: ${capturedData.timestamp || new Date().toLocaleString()}
+
+----------------------------------
+PHILOSOPHICAL NOTE
+----------------------------------
+In the Intelligence Age, your digital fingerprint
+reveals more than your physical one ever could.
+
+Every click. Every scan. Every visit.
+All trackable. All identifiable. All permanent.
+
+Anonymity is an illusion in the digital realm.
+You are not anonymous. You never were.
+
+==================================
+THE DIGITAL AUDIT
+© 2026 Avery Lake. All rights reserved.
+https://digital.averylakeofficial.com
+==================================
+`;
+
+            const blob = new Blob([log], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `THE_FINGERPRINT_${capturedData.hash}_DATALOG.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            downloadedLog = true;
+            checkUnlockPrint();
+        }
+
+        function checkUnlockPrint() {
+            if (downloadedArtifact && downloadedLog) {
+                const btn = document.getElementById('commission-btn');
+                btn.classList.remove('btn-locked');
+                btn.classList.add('unlocked');
+            }
+        }
+
+        function requestPrint() {
+            const d = capturedData;
+            const name = d.subjectName || 'ANONYMOUS';
+
+            const subject = `Commission Inquiry: THE FINGERPRINT // ${d.hash}`;
+            const body = `Hello,
+
+I am interested in commissioning a physical print of my FINGERPRINT protocol capture.
+
+PROTOCOL DATA:
+- Subject: ${name}
+- Hash: ${d.hash}
+- Timestamp: ${new Date().toISOString()}
+- Device: ${d.device || 'N/A'}
+- Location: ${d.location || 'N/A'}
+
+[IMPORTANT: I have attached BOTH the ARTIFACT IMAGE and the DATA LOG to this email.]
+
+Please advise on commission details and pricing.
+
+TECHNICAL SPECIFICATIONS:
+- Size: 18″ × 24″ (recommended). Other sizes available upon request.`;
+
+            window.location.href = `mailto:hello@averylakeofficial.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+    </script>
+</body>
+
+</html>
